@@ -1,18 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { View, TextInput, StyleSheet } from "react-native";
 
-//import firebase from 'firebase'; // Import Firebase and initialize it with your config
-
-export default function PersonalDetails({ onCallback, setObj, obj }) {
-  const onSubmit = () => {
-    //const obj = { nickName, email, DOB };
-    //onCallback(obj);
-  };
-
-  const onBack = () => {
-    onCallback("back");
-  };
+export default function PersonalDetails({ setObj, obj }) {
   return (
     <View>
       <View>

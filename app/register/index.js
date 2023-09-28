@@ -1,16 +1,26 @@
 import React, { useState } from "react";
-import { Slot, router } from "expo-router";
+import { router } from "expo-router";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 import PersonalDetails from "../../components/personalDetails";
-import InterestsPanel from "../../components/interestsPanel";
+import EmptyComponent from "../../components/emptyComponent";
 import FooterReg from "../../components/footerReg";
 import HeaderReg from "../../components/headerReg";
+import ChoicesPanel from "../../components/choicesPanel";
 
 export default function Register() {
   const [index, setIndex] = useState(0);
-  const [obj, setObj] = useState({ nickName: "", email: "", DOB: "" });
+  const [obj, setObj] = useState({
+    nickName: "Becas",
+    email: "brunobecasmoura@gmail.com",
+    DOB: "3/04/1991",
+    myChoices: [],
+  });
+  const choicesByType = {
+    type: "Interests",
+    choices: ["Sport", "Art", "Travel", "Technology", "Photography", "Science"],
+  };
   const onBack = () => {
     if (index === 0) {
       router.push("/");
@@ -25,25 +35,20 @@ export default function Register() {
     } else {
       if (index === 0) {
         let flag = 0;
-        //Missing details
         for (const key in obj) {
+          //Missing personal details
           if (!obj[key]) {
-            alert("Missing " + key);
+            //alert("Missing " + key);
             flag = 1;
           }
         }
         if (!flag) setIndex(index + 1);
+      } else {
+        setIndex(index + 1);
       }
     }
   };
-  const callback = (data) => {
-    if (index === 0 && data === "back") {
-      router.push("/");
-    } else {
-      if (data === "back") setIndex(index - 1);
-      else setIndex(index + 1);
-    }
-  };
+
   const components = [
     {
       component: PersonalDetails,
@@ -52,31 +57,36 @@ export default function Register() {
       footer: "WoW !",
     },
     {
-      component: InterestsPanel,
+      component: EmptyComponent,
       props: { obj },
       header:
-        "One step closer for a legendar experience ! Who are you ? Tell us more about yourself on the next steps, this will define the type of people you will meet !",
+        "One step closer for a legendary experience ! Who are you ? Tell us one of your interests...!",
       footer: "Are you ready ?",
     },
+    {
+      component: ChoicesPanel,
+      props: { obj, setObj, choicesByType },
+      header: `Interests (${obj.myChoices.length}/1)`,
+      footer: "IRLM at the oven",
+    },
   ];
-  //const components = [PersonalDetails, InterestsPanel];
   const {
     component: RenderComponent,
     props,
     header,
     footer,
   } = components[index];
-  //const RenderComponent = components[index];
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <HeaderReg onBack={onBack} message={header} />
       </View>
       <View style={styles.middleSection}>
-        <RenderComponent onCallback={callback} {...props} />
+        <RenderComponent {...props} />
       </View>
       <View style={styles.footer}>
-        <FooterReg message={footer} onNext={onNext} />
+        <FooterReg onNext={onNext} message={footer} />
       </View>
     </View>
   );
