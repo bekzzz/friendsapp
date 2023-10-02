@@ -22,6 +22,7 @@ export default function Register() {
     choices: ["Sport", "Art", "Travel", "Technology", "Photography", "Science"],
   };
   const onBack = () => {
+    console.log(JSON.stringify(obj));
     if (index === 0) {
       router.push("/");
     } else {
@@ -30,22 +31,40 @@ export default function Register() {
   };
 
   const onNext = () => {
-    if (index === 7) {
-      //Call API to register user
-    } else {
-      if (index === 0) {
-        let flag = 0;
-        for (const key in obj) {
-          //Missing personal details
-          if (!obj[key]) {
-            //alert("Missing " + key);
-            flag = 1;
-          }
+    //Personal Details
+    if (index === 0) {
+      let flag = 0;
+      for (const key in obj) {
+        //Missing personal details
+        if (!obj[key]) {
+          //alert("Missing " + key);
+          flag = 1;
         }
-        if (!flag) setIndex(index + 1);
+      }
+      if (!flag) setIndex(index + 1);
+    }
+    //Message
+    if (index === 1) {
+      setIndex(index + 1);
+    }
+    //Interests
+    if (index === 2) {
+      if (obj.myChoices.length > 1 || obj.myChoices.length === 0) {
+        alert("Just one interest to move forward ! Let's go !");
       } else {
         setIndex(index + 1);
       }
+    }
+    if (index === 3) {
+    }
+    if (index === 4) {
+    }
+    if (index === 5) {
+    }
+    if (index === 6) {
+    }
+    if (index === 7) {
+      //Call API to register user
     }
   };
 
@@ -68,6 +87,12 @@ export default function Register() {
       props: { obj, setObj, choicesByType },
       header: `Interests (${obj.myChoices.length}/1)`,
       footer: "IRLM at the oven",
+    },
+    {
+      component: EmptyComponent,
+      props: { obj },
+      header: "Cooooooooooooool ",
+      footer: "Are you ready ?",
     },
   ];
   const {

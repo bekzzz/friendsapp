@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 export default function AvailableChoices({
+  onSelect,
   myChoices,
   choices,
   numberOfChoices,
@@ -21,10 +22,11 @@ export default function AvailableChoices({
     return arrayAux;
   });
 
-  const onSelect = (index) => {
+  const onClick = (element, index) => {
     let newArr = [...selectedChoices];
     newArr[index].selected = !newArr[index].selected;
     setSelectChoices(newArr);
+    onSelect(element);
   };
   return (
     <View style={styles.container}>
@@ -38,7 +40,7 @@ export default function AvailableChoices({
               styles.button,
               element.selected === true ? styles.border : styles.borderLess,
             ]}
-            onPress={() => onSelect(index)}
+            onPress={() => onClick(element, index)}
           >
             <Text style={styles.text}>{element.text} </Text>
           </Pressable>
