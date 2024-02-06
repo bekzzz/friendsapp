@@ -8,6 +8,8 @@ import EmptyComponent from "../../components/emptyComponent";
 import FooterReg from "../../components/footerReg";
 import HeaderReg from "../../components/headerReg";
 import ChoicesPanel from "../../components/choicesPanel";
+import ScheduleChoices from "../../components/scheduleChoices";
+import SchedulePanel from "../../components/schedulePanel";
 
 export default function Register() {
   const [index, setIndex] = useState(0);
@@ -15,10 +17,19 @@ export default function Register() {
     nickName: "Becas",
     email: "brunobecasmoura@gmail.com",
     DOB: "3/04/1991",
-    myChoices: [],
+    interests: ["Sport"],
+    tableSchedule: [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+    ],
   });
   const choicesByType = {
-    type: "Interests",
+    type: "interests",
     choices: ["Sport", "Art", "Travel", "Technology", "Photography", "Science"],
   };
   const onBack = () => {
@@ -49,13 +60,14 @@ export default function Register() {
     }
     //Interests
     if (index === 2) {
-      if (obj.myChoices.length > 1 || obj.myChoices.length === 0) {
+      if (obj.interests.length > 1 || obj.interests.length === 0) {
         alert("Just one interest to move forward ! Let's go !");
       } else {
         setIndex(index + 1);
       }
     }
     if (index === 3) {
+      setIndex(index + 1);
     }
     if (index === 4) {
     }
@@ -85,7 +97,7 @@ export default function Register() {
     {
       component: ChoicesPanel,
       props: { obj, setObj, choicesByType },
-      header: `Interests (${obj.myChoices.length}/1)`,
+      header: `Interests (${obj.interests.length}/1)`,
       footer: "IRLM at the oven",
     },
     {
@@ -93,6 +105,12 @@ export default function Register() {
       props: { obj },
       header: "Cooooooooooooool ",
       footer: "Are you ready ?",
+    },
+    {
+      component: SchedulePanel,
+      props: { obj, setObj },
+      header: `Schedule`,
+      footer: "Almost there",
     },
   ];
   const {

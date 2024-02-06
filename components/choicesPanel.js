@@ -4,21 +4,28 @@ import AvailableChoices from "./availableChoices";
 
 export default function ChoicesPanel({ obj, setObj, choicesByType }) {
   const removeChoices = (element) => {
-    const arrayCopy = obj.myChoices;
+    const arrayCopy = obj[choicesByType.type];
     const index = arrayCopy.indexOf(element.text);
     arrayCopy.splice(index, 1);
     return arrayCopy;
   };
 
   const addChoice = (element) => {
-    const newArray = obj.myChoices;
+    const newArray = obj[choicesByType.type];
     newArray.push(element.text);
     return newArray;
   };
   const onSelect = (element) => {
-    if (!obj.myChoices || element.selected)
-      setObj((oldObj) => ({ ...oldObj, myChoices: addChoice(element) }));
-    else setObj((oldObj) => ({ ...oldObj, myChoices: removeChoices(element) }));
+    if (!obj[choicesByType.type] || element.selected)
+      setObj((oldObj) => ({
+        ...oldObj,
+        [choicesByType.type]: addChoice(element),
+      }));
+    else
+      setObj((oldObj) => ({
+        ...oldObj,
+        [choicesByType.type]: removeChoices(element),
+      }));
   };
 
   return (
@@ -26,7 +33,7 @@ export default function ChoicesPanel({ obj, setObj, choicesByType }) {
       <AvailableChoices
         onSelect={onSelect}
         choices={choicesByType.choices}
-        myChoices={obj.myChoices}
+        myChoices={obj[choicesByType.type]}
       />
     </View>
   );
